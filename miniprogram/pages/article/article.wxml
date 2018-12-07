@@ -1,0 +1,69 @@
+<!--pages/article/article.wxml-->
+<view class="container">
+  <scroll-view class="scroll-container" scroll-y="true" enable-back-to-top="true" style="height:100%;">
+    <view class='article'>
+      <view class="head">
+        <image class="avatar" src="{{article.head}}" background-size="cover"></image>
+        <view class='title'>{{article.title}}</view>
+      </view>
+      <view class="info">
+        <text id="{{article.id}}" bindtap='goDeatil'>作者：{{article.user}}</text>
+        <text>日期：{{article.ctime}}</text>
+        <text>标签：{{article.tag}}</text>
+      </view>
+      <view class='content'>
+        {{article.post}}
+      </view>
+      <!-- 图片列表 -->
+      <view class='upload' wx:if="{{imageList.length > 0}}">
+        <view class='clearFix'>
+          <view class='icon_item' wx:for="{{imageList}}"  wx:key="index">
+            <image src="{{item.pic}}"  data-index='{{index}}' bindtap='previewImg'></image>
+          </view>
+        </view>
+      </view>
+      <view class='comment'>
+        <view>评论列表</view>
+        <view wx:for="{{commentList}}" wx:key="item" wx:for-index="index" class='item'>
+          <!-- 父 -->
+          <view>
+            <view class='name'>
+              <text>{{item.user}} </text>
+              <text>{{item.ctime}} </text>
+              <span class='reply' data-item="{{item}}" bindtap='replyTo'>回复</span>
+            </view>
+            <view class='text'>
+              <text>{{item.comment}}</text>
+            </view>
+          </view>
+          <!-- 子 -->
+          <mytree treeData='{{ item.childList }}' bind:replyToEvent='replyToEvent' wx:if="item.childList.length > 0"/>
+        </view>
+      </view>
+
+    </view>
+  </scroll-view>
+  <!-- 操作按钮 -->
+  <view class='operate'>
+    <!-- <view>
+      <span bindtap='goBack'>返回</span>
+    </view> -->
+    <view>
+      <span id="{{article.id}}" bindtap='editHandler'>编辑</span>
+    </view>
+    <view>
+      <span id="{{article.id}}" bindtap='delHandler'>删除</span>
+    </view>
+    <view>
+      <span id="{{article.id}}" bindtap='commentHandler'>评论</span>
+    </view>
+    <view>
+      <button class="share-btn" open-type="share">分享</button>
+    </view>
+  </view>
+  <!-- 评论弹框 -->
+  <modal id="modal" hidden="{{hiddenmodal}}" title="评论" confirm-text="提交" cancel-text="取消" bindcancel="cancelModal" bindconfirm="confirmModal">
+    <textarea bindinput="bindTextArea" auto-height maxlength="-1" value="{{comment}}" placeholder="请输入评论" style='min-height:80px' />
+  </modal>
+
+</view>
