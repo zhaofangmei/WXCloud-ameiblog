@@ -21,8 +21,7 @@ exports.main = async(event, context) => {
         console.log('>>>>>>post one fail: ', err)
       }
     })
-    console.log('>>>>>>>>>>>row: ', row)
-    console.log('>>>>>>>>>>>row data: ', row.data)
+    
     let result = row.data
     
     result.isCurrUser = false

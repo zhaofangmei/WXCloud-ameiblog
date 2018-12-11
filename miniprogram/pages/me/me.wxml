@@ -1,2 +1,18 @@
 <!--pages/me/me.wxml-->
-<text>pages/me/me.wxml</text>
+<view class="container">
+  <!-- 用户登录测试 -->
+  <view class="userinfo">
+    <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
+  </view>
+  <view class='oper_list'>
+    <view>
+      <navigator url="/pages/myblog/myblog" hover-class="navigator-hover">我的博客</navigator>
+    </view>
+    <view>
+      <button type="primary" open-type="contact" session-from="weapp">功能反馈</button>
+    </view>
+    <view>
+      <navigator url="/pages/about/about" hover-class="navigator-hover">关于</navigator>
+    </view>
+  </view>
+</view>

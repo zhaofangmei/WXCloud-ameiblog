@@ -85,16 +85,17 @@ Page({
   },
   //确认按钮
   confirmModal: function () {
+    debugger
     let _this = this
     let comment = this.data.comment
     let userInfo = app.globalData.userInfo
-    let postid = this.data.article.id
+    let postid = this.data.article._id || ''
     let replyItem = this.data.replyItem
     let replyer = ''
     let parentid = ''
     if (replyItem != '') {
       replyer = replyItem.user
-      parentid = replyItem.id
+      parentid = replyItem._id
     }
     if (!comment) {
       util.showModel('参数异常', '评论不可为空！');
@@ -172,10 +173,20 @@ Page({
       name: 'commentlist',
       data: params,
       success: res => {
-        console.log(res)
+        if (res.result) {
+          let data = res.result || []
+          for (var item of data) {
+            item.ctime = util.formatTime(item.ctime)
+          }
+          _this.setData({
+            commentList: data
+          })
+
+        }
+
       },
       fail: err => {
-        util.showModel('请求失败', err);
+        util.showModel('请求失败', '');
         console.log('request fail：', err);
         return false;
       }
@@ -184,7 +195,6 @@ Page({
   },
 
   getData: function (id) {
-    console.log(id)
     let _this = this
     let params = {
       isReload: _this.data.isReload,
@@ -202,14 +212,8 @@ Page({
             article: data || '',
             imageList: data.imgpath || [],
           })
-          let currOpenId = app.globalData.openid || ''
-          let articleOpenId = _this.data.article.openid
-          if (currOpenId != articleOpenId) {
-            _this.data.isCurrUser = false
-          } else {
-            _this.data.isCurrUser = true
-          }
-
+          _this.data.isCurrUser = data.isCurrUser
+          delete data.isCurrUser
         }
       },
       fail: err => {

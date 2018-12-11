@@ -9,9 +9,9 @@ Page({
   },
   // 授权登录
   bindGetUserInfo: function(e) {
-    const self = this
+    const _this = this
     util.loading()
-    let backType = self.data.backType;
+    let backType = _this.data.backType;
     if (e.detail.userInfo) { //已授权
       let userInfo = e.detail.userInfo
       app.globalData.userInfo = userInfo
