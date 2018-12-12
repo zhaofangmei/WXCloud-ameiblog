@@ -23,6 +23,7 @@ Page({
   getList: function () {
     let _this = this
     let params = {
+      op:'paging',
       user: null,
       pageSize: _this.data.pageSize,
       pageIndex: _this.data.pageIndex

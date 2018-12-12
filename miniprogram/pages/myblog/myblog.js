@@ -1,66 +1,52 @@
 // pages/myblog/myblog.js
+const app = getApp()
+const util = require('../../utils/util.js')
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    blogs: [],
+    currentType: '常用',
+    tags: ['常用', '爱好', '随笔']
+  },
+  orderBy: function (e) {
+    let item = e.target.dataset.item;
+    this.setData({
+      currentType: item
+    })
+    this.getBlogList()
+  },
+  getBlogList: function () {
+    let tag = this.data.currentType
+    let params = {
+      op: 'tag',
+      tag: tag
+    }
+    wx.cloud.callFunction({
+      name: 'postlist',
+      data: params,
+      success: res => {
+        console.log(res)
+        let blogs = res.result.data
+        blogs.forEach(item => {
+          item.ctime = util.formatTime(item.ctime)
+        })
+        this.setData({
+          blogs: blogs
+        })
+      },
+      fail: err => {
+        _this.data.loading = false
+        util.showModel('请求失败', 'error');
+        console.log('request fail：', err);
+        return false;
+      }
+    })
 
   },
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
   onLoad: function (options) {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
+    this.getBlogList()
   }
 })

@@ -215,11 +215,12 @@ Page({
   getData: function(id) {
     let _this = this
     let params = {
+      op:'one',
       isReload: _this.data.isReload,
       id: id
     }
     wx.cloud.callFunction({
-      name: 'postone',
+      name: 'postlist',
       data: params,
       success: res => {
         if (res.result) {
