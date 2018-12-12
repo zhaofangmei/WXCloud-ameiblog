@@ -34,6 +34,28 @@ App({
       }
     })
   },
+  appShareHandle(e) {
+    return {
+      title: '阿梅博客，闲聊时光',
+      path: '/pages/home/home',
+      imageUrl: '',
+      success: function (res) {
+        // 转发成功
+        console.log('>>>>>>>>转发成功:', res)
+        if (res.errMsg === 'shareAppMessage:ok') {
+          if (res.hasOwnProperty('shareTickets')) {
+            // 分享到群
+          } else {
+            // 分享到个人
+          }
+        }
+      },
+      fail: function (obj) {
+        // 转发失败
+        console.log('>>>> share fail..')
+      }
+    }
+  },
   globalData: {
     logined: true,
     userInfo: null

@@ -17,8 +17,8 @@
       <!-- 图片列表 -->
       <view class='upload' wx:if="{{imageList.length > 0}}">
         <view class='clearFix'>
-          <view class='icon_item' wx:for="{{imageList}}"  wx:key="index">
-            <image src="{{item.pic}}"  data-index='{{index}}' bindtap='previewImg'></image>
+          <view class='icon_item' wx:for="{{imageList}}" wx:key="index">
+            <image src="{{item.pic}}" data-index='{{index}}' bindtap='previewImg'></image>
           </view>
         </view>
       </view>
@@ -37,7 +37,7 @@
             </view>
           </view>
           <!-- 子 -->
-          <mytree treeData='{{ item.childList }}' bind:replyToEvent='replyToEvent' wx:if="item.childList.length > 0"/>
+          <mytree treeData='{{ item.childList }}' bind:replyToEvent='replyToEvent' wx:if="item.childList.length > 0" />
         </view>
       </view>
 
@@ -45,17 +45,14 @@
   </scroll-view>
   <!-- 操作按钮 -->
   <view class='operate'>
-    <!-- <view>
-      <span bindtap='goBack'>返回</span>
-    </view> -->
     <view>
-      <span id="{{article.id}}" bindtap='editHandler'>编辑</span>
+      <span id="{{article._id}}" bindtap='editHandler'>编辑</span>
     </view>
     <view>
-      <span id="{{article.id}}" bindtap='delHandler'>删除</span>
+      <span id="{{article._id}}" bindtap='delHandler'>删除</span>
     </view>
     <view>
-      <span id="{{article.id}}" bindtap='commentHandler'>评论</span>
+      <span id="{{article._id}}" bindtap='commentHandler'>评论</span>
     </view>
     <view>
       <button class="share-btn" open-type="share">分享</button>

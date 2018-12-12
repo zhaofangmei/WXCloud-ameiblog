@@ -47,19 +47,20 @@ Page({
   },
   // 提交
   formSumbit: function (e) {
-    this.data.loading = true
+    var _this = this
     let openid = app.globalData.openid
     let title = e.detail.value.title || '';
-    let tag = this.data.tag || '';
-    let post = this.data.post || '';
-    let userInfo = this.data.userInfo;
+    let tag = _this.data.tag || '';
+    let post = _this.data.post || '';
+    let userInfo = _this.data.userInfo;
     if (!(title && post)) {
       util.showModel('参数异常', '标题或正文不可为空！');
       return false;
     }
-    let imgpath = this.data.imageList || [];
+    let imgpath = _this.data.imageList || [];
 
     let params = {
+      op: 1, //1新增 2修改 3 删除
       openid: openid,
       user: userInfo.nickName,
       head: userInfo.avatarUrl || '',
@@ -68,12 +69,16 @@ Page({
       post: post,
       imgpath: JSON.stringify(imgpath)
     }
-    var _this = this
+    _this.setData({
+      loading: true
+    })
     wx.cloud.callFunction({
       name: 'postsave',
       data: params,
-      success: res => {
-        _this.data.loading = false
+      success: res => { 
+        _this.setData({
+          loading: false
+        })
         util.showSuccess('操作成功！')
         _this.setData({
           title: '',
@@ -88,8 +93,10 @@ Page({
         
       },
       fail: err => {
-        _this.data.loading = false
-        util.showModel('请求失败', err);
+        _this.setData({
+          loading: false
+        })
+        util.showModel('请求失败', 'error');
         console.log('request fail：', err);
         return false;
       }

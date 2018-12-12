@@ -19,22 +19,22 @@ Page({
     article: ''
   },
   // 预览图片
-  previewImg: function (e) {
+  previewImg: function(e) {
     let index = e.currentTarget.dataset.index;
     let imgArr = [];
     this.data.imageList.map(item => {
       imgArr.push(item.pic)
     })
     wx.previewImage({
-      current: imgArr[index],     //当前图片地址
-      urls: imgArr,               //所有要预览的图片的地址集合 数组形式
-      success: function (res) { },
-      fail: function (res) { },
-      complete: function (res) { },
+      current: imgArr[index], //当前图片地址
+      urls: imgArr, //所有要预览的图片的地址集合 数组形式
+      success: function(res) {},
+      fail: function(res) {},
+      complete: function(res) {},
     })
   },
   // 回复事件
-  replyToEvent: function (e) {
+  replyToEvent: function(e) {
     let item = e.detail.data
     // console.log('parent...', item)
     this.setData({
@@ -44,13 +44,13 @@ Page({
 
   },
   // 返回
-  goBack: function () {
+  goBack: function() {
     wx.switchTab({
       url: '../home/home',
     })
   },
   // 编辑
-  editHandler: function (e) {
+  editHandler: function(e) {
     if (this.data.isCurrUser) {
       let articleId = e.currentTarget.id;
       wx.navigateTo({
@@ -61,7 +61,7 @@ Page({
     }
   },
 
-  replyTo: function (e) {
+  replyTo: function(e) {
     let replyItem = e.target.dataset.item
     this.setData({
       replyItem: replyItem,
@@ -70,21 +70,21 @@ Page({
     })
   },
 
-  bindTextArea: function (e) {
+  bindTextArea: function(e) {
     let comment = e.detail.value
     this.setData({
       comment: comment
     })
   },
   //取消按钮
-  cancelModal: function () {
+  cancelModal: function() {
     this.setData({
       comment: '',
       hiddenmodal: true
     });
   },
   //确认按钮
-  confirmModal: function () {
+  confirmModal: function() {
     debugger
     let _this = this
     let comment = this.data.comment
@@ -132,23 +132,43 @@ Page({
     })
   },
 
-  commentHandler: function () {
+  commentHandler: function() {
     this.setData({
       hiddenmodal: !this.data.hiddenmodal
     })
   },
 
-  delRequest: function (id) {
-
+  delRequest: function(id) {
+    var _this = this
+    wx.cloud.callFunction({
+      name: 'postsave',
+      data: {
+        op: 3, //1新增 2修改 3 删除
+        id: id
+      },
+      success: res => {
+        if (res.result.errMsg == 'document.update:ok') {
+          util.showSuccess('操作成功');
+          wx.switchTab({
+            url: '../home/home',
+          })
+        }
+      },
+      fail: err => {
+        util.showModel('请求失败', 'error');
+        console.log('request fail：', err);
+        return false;
+      }
+    })
   },
 
-  delHandler: function (e) {
+  delHandler: function(e) {
     if (this.data.isCurrUser) {
       let _this = this
       wx.showModal({
         title: '删除',
         content: '是否删除该文章？',
-        success: function (res) {
+        success: function(res) {
           if (res.confirm) {
             let articleId = e.currentTarget.id;
             _this.delRequest(articleId);
@@ -163,7 +183,7 @@ Page({
     }
   },
 
-  getComments: function (postid) {
+  getComments: function(postid) {
     if (!postid) postid = this.data.article.id
     let _this = this
     let params = {
@@ -181,20 +201,18 @@ Page({
           _this.setData({
             commentList: data
           })
-
         }
-
       },
       fail: err => {
-        util.showModel('请求失败', '');
+        util.showModel('请求失败', 'error');
         console.log('request fail：', err);
         return false;
       }
     })
-    
+
   },
 
-  getData: function (id) {
+  getData: function(id) {
     let _this = this
     let params = {
       isReload: _this.data.isReload,
@@ -225,7 +243,7 @@ Page({
   },
 
   // 监听页面加载
-  onLoad: function (options) {
+  onLoad: function(options) {
     let _this = this
     if (options) {
       let articleId = options.articleId || ''
@@ -238,7 +256,7 @@ Page({
         isReload: 1
       })
     }
-    app.checkUserInfo(function (userInfo, isLogin) {
+    app.checkUserInfo(function(userInfo, isLogin) {
       if (!isLogin) {
         wx.redirectTo({
           url: '../authorization/authorization?backType=' + _this.data.articleId,
@@ -250,7 +268,7 @@ Page({
     });
   },
   // 分享
-  onShareAppMessage: function (e) {
+  onShareAppMessage: function(e) {
     return app.appShareHandle()
   }
 })
