@@ -2,10 +2,6 @@
 const app = getApp()
 const util = require('../../utils/util.js')
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
     blogs: [],
     currentType: '常用',

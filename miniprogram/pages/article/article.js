@@ -3,10 +3,6 @@ const app = getApp()
 const util = require('../../utils/util.js')
 
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
     imageList: [],
     isReload: 0,
@@ -33,24 +29,8 @@ Page({
       complete: function(res) {},
     })
   },
-  // 回复事件
-  replyToEvent: function(e) {
-    let item = e.detail.data
-    // console.log('parent...', item)
-    this.setData({
-      replyItem: item,
-      hiddenmodal: false
-    })
-
-  },
-  // 返回
-  goBack: function() {
-    wx.switchTab({
-      url: '../home/home',
-    })
-  },
   // 编辑
-  editHandler: function(e) {
+  editHandler: function (e) {
     if (this.data.isCurrUser) {
       let articleId = e.currentTarget.id;
       wx.navigateTo({
@@ -60,7 +40,16 @@ Page({
       util.showModel('提示', '当前用户不可编辑')
     }
   },
+  // 回复
+  replyToEvent: function(e) {
+    let item = e.detail.data
+    this.setData({
+      replyItem: item,
+      hiddenmodal: false
+    })
 
+  },
+  // 回复事件
   replyTo: function(e) {
     let replyItem = e.target.dataset.item
     this.setData({
@@ -69,7 +58,7 @@ Page({
       hiddenmodal: !this.data.hiddenmodal
     })
   },
-
+  // 绑定评论内容
   bindTextArea: function(e) {
     let comment = e.detail.value
     this.setData({
@@ -131,13 +120,12 @@ Page({
       hiddenmodal: true
     })
   },
-
   commentHandler: function() {
     this.setData({
       hiddenmodal: !this.data.hiddenmodal
     })
   },
-
+  // 删除事件
   delRequest: function(id) {
     var _this = this
     wx.cloud.callFunction({
@@ -161,7 +149,7 @@ Page({
       }
     })
   },
-
+  // 删除
   delHandler: function(e) {
     if (this.data.isCurrUser) {
       let _this = this
@@ -182,7 +170,7 @@ Page({
       util.showModel('提示', '当前用户不可删除')
     }
   },
-
+  // 获取意见列表
   getComments: function(postid) {
     if (!postid) postid = this.data.article.id
     let _this = this
@@ -211,7 +199,7 @@ Page({
     })
 
   },
-
+  // 获取博客信息
   getData: function(id) {
     let _this = this
     let params = {
@@ -242,7 +230,6 @@ Page({
       }
     })
   },
-
   // 监听页面加载
   onLoad: function(options) {
     let _this = this

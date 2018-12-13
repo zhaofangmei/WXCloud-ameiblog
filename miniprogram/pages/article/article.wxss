@@ -56,10 +56,13 @@ page {
   padding: 20rpx 10rpx;
   word-break: break-all;
 }
-
-.container .operate {
+.container .footer {
   position: fixed;
   bottom: 0;
+  width: 100%;
+  background-color: #f0f0f0;
+}
+.container .footer .operate {
   display: flex;
   width: 100%;
   height: 80rpx;
@@ -70,11 +73,11 @@ page {
   background-color: #f0f0f0;
 }
 
-.container .operate > view {
+.container .footer .operate > view {
   width: 25%;
 }
 
-.container .operate > view .share-btn {
+.container .footer .operate > view .share-btn {
   display: inline-block;
   color: #707070;
   font-size: 32rpx;
@@ -83,12 +86,34 @@ page {
   padding: 0;
 }
 
-.container .operate > view .share-btn::after {
+.container .footer .operate > view .share-btn::after {
   border: none;
 }
 
+.container .footer .review {
+  width:100%;
+}
+
+.container .footer .review .textarea {
+  height: 80px;
+  width: 80%;
+  font-size: 32rpx !important;
+  float: left;
+}
+
+.container .footer .review .button {
+  width: 80rpx;
+  color:#fff;
+  background-color:#1aad19;
+  font-size: 32rpx !important;
+  padding: 0rpx !important;
+  float: left;
+  line-height: 60rpx !important;
+  margin: 40rpx 30rpx 30rpx;
+}
+
 .container .comment {
-  padding: 20rpx 10rpx 80rpx;
+  padding: 20rpx 10rpx 380rpx;
 }
 
 .container .comment > view:not(:first-child) {

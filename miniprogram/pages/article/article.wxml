@@ -43,24 +43,36 @@
 
     </view>
   </scroll-view>
-  <!-- 操作按钮 -->
-  <view class='operate'>
-    <view>
-      <span id="{{article._id}}" bindtap='editHandler'>编辑</span>
+  <view class='footer'>
+    <!-- 操作按钮 -->
+    <view class='operate'>
+      <view>
+        <span id="{{article._id}}" bindtap='editHandler'>编辑</span>
+      </view>
+      <view>
+        <span id="{{article._id}}" bindtap='delHandler'>删除</span>
+      </view>
+      <view>
+        <span id="{{article._id}}" bindtap='commentHandler'>评论</span>
+      </view>
+      <view>
+        <button class="share-btn" open-type="share">分享</button>
+      </view>
     </view>
-    <view>
-      <span id="{{article._id}}" bindtap='delHandler'>删除</span>
-    </view>
-    <view>
-      <span id="{{article._id}}" bindtap='commentHandler'>评论</span>
-    </view>
-    <view>
-      <button class="share-btn" open-type="share">分享</button>
+    <!-- 评论 -->
+    <view class='clearFix review'>
+      <form class='section' bindsubmit="toRegister" report-submit='true'>
+        <textarea bindinput="bindTextArea" maxlength="-1" value="{{comment}}" placeholder="请输入评论" class="textarea"/>
+        <button type='mini' form-type='submit' class="button">发送</button>
+      </form>
     </view>
   </view>
+
+
+
   <!-- 评论弹框 -->
-  <modal id="modal" hidden="{{hiddenmodal}}" title="评论" confirm-text="提交" cancel-text="取消" bindcancel="cancelModal" bindconfirm="confirmModal">
-    <textarea bindinput="bindTextArea" auto-height maxlength="-1" value="{{comment}}" placeholder="请输入评论" style='min-height:80px' />
-  </modal>
+  <!-- <modal id="modal" hidden="{{hiddenmodal}}" title="评论" confirm-text="提交" cancel-text="取消" bindcancel="cancelModal" bindconfirm="confirmModal">
+    <textarea bindinput="bindTextArea" auto-height maxlength="-1" value="{{comment}}" placeholder="请输入评论" style='min-height:80px;width:100%' />
+  </modal> -->
 
 </view>
