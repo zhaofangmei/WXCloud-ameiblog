@@ -52,7 +52,6 @@ exports.main = async (event, context) => {
         }
       })
 
-
     } else if (event.op === 3) {  // 删除
       let id = event.id
       result = await db.collection('b_post').doc(id).update({

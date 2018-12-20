@@ -38,7 +38,7 @@ exports.main = async(event, context) => {
         offset
       } = _4page(params)
 
-      result = await db.collection('b_post').where({
+      let postList = await db.collection('b_post').where({
         server_status: 1
       }).skip(offset).limit(limit).orderBy('ctime', 'desc').get({
         success: function(res) {
@@ -48,6 +48,15 @@ exports.main = async(event, context) => {
           console.log('>>>>>>post list fail: ', err)
         }
       })
+
+      for (let data of postList.data) {
+        let commontResult = await cloud.callFunction({
+          name: 'commentlist',
+          data: { postid: data._id}
+        })
+        data.commentCount = commontResult.result.length
+      }
+      result = postList
 
     } else if (event.op == 'one') { // id查询
       console.log('post onde >>>>>>>>>>>>>>>>>', event)

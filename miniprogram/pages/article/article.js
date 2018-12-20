@@ -4,6 +4,7 @@ const util = require('../../utils/util.js')
 
 Page({
   data: {
+    loading: false,
     imageList: [],
     isReload: 0,
     articleId: '',
@@ -73,30 +74,38 @@ Page({
     });
   },
   //确认按钮
-  confirmModal: function() {
-    debugger
+  formSubmit: function(e) {
     let _this = this
-    let comment = this.data.comment
+    let form_id = e.detail.formId
+    let title = _this.data.article.title
+    let comment = _this.data.comment
     let userInfo = app.globalData.userInfo
-    let postid = this.data.article._id || ''
-    let replyItem = this.data.replyItem
+    let postid = _this.data.article._id || ''
+    let replyItem = _this.data.replyItem
     let replyer = ''
     let parentid = ''
+    let touser = _this.data.article.openid
     if (replyItem != '') {
       replyer = replyItem.user
       parentid = replyItem._id
+      touser = replyItem.openid
     }
     if (!comment) {
       util.showModel('参数异常', '评论不可为空！');
       return false;
     }
+
     let params = {
+      touser: touser,
+      form_id: form_id,
+      title: title,
       comment: comment,
       user: userInfo.nickName,
       postid: postid,
       parentid: parentid,
       replyer: replyer
     }
+    util.loading()
     wx.cloud.callFunction({
       name: 'commentsave',
       data: params,

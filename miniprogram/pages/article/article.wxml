@@ -52,7 +52,7 @@
       <view>
         <span id="{{article._id}}" bindtap='delHandler'>删除</span>
       </view>
-      <view>
+      <view class="operate_3">
         <span id="{{article._id}}" bindtap='commentHandler'>评论</span>
       </view>
       <view>
@@ -60,19 +60,11 @@
       </view>
     </view>
     <!-- 评论 -->
-    <view class='clearFix review'>
-      <form class='section' bindsubmit="toRegister" report-submit='true'>
-        <textarea bindinput="bindTextArea" maxlength="-1" value="{{comment}}" placeholder="请输入评论" class="textarea"/>
-        <button type='mini' form-type='submit' class="button">发送</button>
+    <view class='clearFix review' wx:if="{{!hiddenmodal}}">
+      <form class='section' bindsubmit="formSubmit" report-submit='true'>
+        <textarea fixed="true" bindinput="bindTextArea" maxlength="-1" value="{{comment}}" placeholder="请输入内容" class="textarea"/>
+        <button type='mini' form-type='submit' loading="{{loading}}" disabled="{{loading}}" class="button">发送</button>
       </form>
     </view>
   </view>
-
-
-
-  <!-- 评论弹框 -->
-  <!-- <modal id="modal" hidden="{{hiddenmodal}}" title="评论" confirm-text="提交" cancel-text="取消" bindcancel="cancelModal" bindconfirm="confirmModal">
-    <textarea bindinput="bindTextArea" auto-height maxlength="-1" value="{{comment}}" placeholder="请输入评论" style='min-height:80px;width:100%' />
-  </modal> -->
-
 </view>

@@ -20,11 +20,13 @@ Page({
       op: 'tag',
       tag: tag
     }
+    util.loading()
     wx.cloud.callFunction({
       name: 'postlist',
       data: params,
       success: res => {
         console.log(res)
+        util.loaded()
         let blogs = res.result.data
         blogs.forEach(item => {
           item.ctime = util.formatTime(item.ctime)
